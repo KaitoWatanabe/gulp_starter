@@ -46,7 +46,6 @@ gulp.task("js", function() {
       "source/javascripts/jquery.smooth-scroll.min.js"
     ]))
     .pipe(concat("app.js"))
-    // .pipe(uglifyAll('app.js',{comments: true}))
     .pipe(uglify({preserveComments:'some'}))
     .pipe(gulp.dest("./build"))
     .pipe(browser.reload({stream:true}))
@@ -58,7 +57,7 @@ gulp.task('sass', function(){
   .pipe(sass())
   .pipe(pleeease({
         fallbacks: {
-            autoprefixer: ['last 4 versions'] //ベンダープレフィックス
+            autoprefixer: ['last 4 versions']
         }
     }))
   .pipe(gulp.dest('./build'))
@@ -73,11 +72,17 @@ gulp.task('jade', function () {
   .pipe(browser.reload({stream:true}))
 });
 
+gulp.task('image', function () {
+  gulp.src('./source/images/**/*')
+  .pipe(gulp.dest('./build/images/'));
+});
+
 gulp.task('watch', function(){
-    runSequence('server')
-    gulp.watch('./source/stylesheets/**/*.scss', ['sass']);
-    gulp.watch('./source/javascripts/**/*.js', ['js']);
-    gulp.watch("./source/**/*.jade",["jade"]);
+    runSequence('server');
+    gulp.watch('source/stylesheets/**/*.scss', ['sass']);
+    gulp.watch('source/javascripts/**/*.js', ['js']);
+    gulp.watch("source/**/*.jade",["jade"]);
+    gulp.watch("source/images/**/*",["image"]);
 });
 
 gulp.task('build', ['jade', 'sass', 'js', 'bower'])
