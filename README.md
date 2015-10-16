@@ -52,6 +52,12 @@ $ node -v
 v4.1.0
 ```
 
+### gulpのインストール
+
+```
+npm install -g gulp
+```
+
 ### bowerのインストール
 
 ```
