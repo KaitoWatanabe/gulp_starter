@@ -5,8 +5,8 @@ gulp_starter
 Middlemanライクな開発ができるgulpfile。
 
 ## Requirement
-node v4.1.0 ~
-bower
+* node v4.1.0 ~
+* bower
 
 ## SetUp
 ### homebrewでnodebrewのインストール
