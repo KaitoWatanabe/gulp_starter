@@ -2,11 +2,10 @@ gulp_starter
 ====
 
 ## Description
-Middlemanライクな開発ができるgulpfile。
+gulpfile for web-design
 
 ## Requirement
 * node v4.1.0 ~
-* bower
 
 ## SetUp
 ### homebrewでnodebrewのインストール
@@ -74,21 +73,19 @@ bower -v
 
 ```
 $ npm install
-$ bower install
 ```
 
 ## Usage
 
 ```
 $ gulp
-$ gulp watch
 ```
 
 ## Contribution
 
 ## Licence
 
-MIT
+
 
 ## Author
 

@@ -5,11 +5,10 @@ var runSequence = require('run-sequence');
 var pleeease = require('gulp-pleeease');
 var plumber = require("gulp-plumber");
 var browser = require("browser-sync");
-var uglifyAll = require("gulp-uglifyjs");
 var uglify = require("gulp-uglify");
 var concat = require('gulp-concat');
-var gulpif = require('gulp-if');
-var order = require("gulp-order");
+var data = require('gulp-data');
+var fs = require('fs');
 
 gulp.task("server", function() {
     browser({
@@ -19,32 +18,14 @@ gulp.task("server", function() {
     });
 });
 
-gulp.task('bower',function(){
-  gulp.src('./bower_components/foundation/scss/foundation/**/*')
-  .pipe(gulp.dest('./source/stylesheets/foundation/'));
-  gulp.src('./bower_components/fontawesome/scss/*')
-  .pipe(gulp.dest('./source/stylesheets/fontawesome/'));
-  gulp.src('./bower_components/fastclick/lib/fastclick.js')
-  .pipe(gulp.dest('./source/javascripts/'));
-  gulp.src('./bower_components/jquery-smooth-scroll/jquery.smooth-scroll.min.js')
-  .pipe(gulp.dest('./source/javascripts/'));
-  gulp.src('./bower_components/fontawesome/fonts/*')
+gulp.task('modules',function(callback){
+  return gulp.src('./node_modules/font-awesome/fonts/*')
   .pipe(gulp.dest('./build/fonts/'));
-
 });
 
 gulp.task("js", function() {
-    gulp.src(["./source/javascripts/**/*.js", "!./source/javascripts/html5shiv.js"])
+    return gulp.src(JSON.parse(fs.readFileSync("source/javascripts/app.json", "utf8")).scripts)
     .pipe(plumber())
-    .pipe(order([
-      "source/javascripts/ga.js",
-      "source/javascripts/jquery-1.11.1.min.js",
-      "source/javascripts/fastclick.js",
-      "source/javascripts/jquery.easing-1.3.pack.js",
-      "source/javascripts/jquery.biggerlink.min.js",
-      "source/javascripts/jquery.heightLine.js",
-      "source/javascripts/jquery.smooth-scroll.min.js"
-    ]))
     .pipe(concat("app.js"))
     .pipe(uglify({preserveComments:'some'}))
     .pipe(gulp.dest("./build"))
@@ -65,8 +46,11 @@ gulp.task('sass', function(){
 })
 
 gulp.task('jade', function () {
-  gulp.src(['./source/**/*.jade', '!./source/partials/*.jade', '!./source/layouts/*.jade'])
+  return gulp.src(['./source/**/*.jade', '!./source/partials/*.jade', '!./source/layouts/*.jade'])
   .pipe(plumber())
+  .pipe(data( function(file) {
+    return JSON.parse(fs.readFileSync('./source/data/data.json'));
+  } ))
   .pipe(jade())
   .pipe(gulp.dest('./build/'))
   .pipe(browser.reload({stream:true}))
@@ -77,14 +61,40 @@ gulp.task('image', function () {
   .pipe(gulp.dest('./build/images/'));
 });
 
+gulp.task('font', function () {
+  return gulp.src('./source/fonts/**/*')
+  .pipe(gulp.dest('./build/fonts/'));
+});
+
 gulp.task('watch', function(){
     runSequence('server');
     gulp.watch('source/stylesheets/**/*.scss', ['sass']);
     gulp.watch('source/javascripts/**/*.js', ['js']);
     gulp.watch("source/**/*.jade",["jade"]);
     gulp.watch("source/images/**/*",["image"]);
+    gulp.watch("source/fonts/**/*",["font"]);
 });
 
-gulp.task('build', ['jade', 'sass', 'js', 'bower'])
+gulp.task('build', function(callback) {
+  return runSequence(
+    'modules',
+    ['font', 'jade', 'sass', 'js', 'image'],
+    callback
+  );
+});
 
-gulp.task('default', ['build'])
+gulp.task('clean', function(callback) {
+  return runSequence(
+    'modules',
+    ['font', 'jade', 'sass', 'js', 'image'],
+    callback
+  );
+});
+
+gulp.task('default', function(callback) {
+  return runSequence(
+    'build',
+    'watch',
+    callback
+  );
+});

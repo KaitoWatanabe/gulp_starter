@@ -1,11 +1,3 @@
-//= require "ga"
-//= require "jquery-1.11.1.min.js"
-//= require "fastclick/lib/fastclick"
-//= require "jquery.easing-1.3.pack"
-//= require "jquery.biggerlink.min"
-//= require "jquery.heightLine"
-//= require "jquery-smooth-scroll/jquery.smooth-scroll.min"
-
 // nav
 (function($){
     // Menu Functions
