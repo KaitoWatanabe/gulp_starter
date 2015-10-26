@@ -9,6 +9,7 @@ var uglify = require("gulp-uglify");
 var concat = require('gulp-concat');
 var data = require('gulp-data');
 var fs = require('fs');
+var notify = require('gulp-notify');
 
 gulp.task("server", function() {
     browser({
@@ -25,7 +26,7 @@ gulp.task('modules',function(callback){
 
 gulp.task("js", function() {
     return gulp.src(JSON.parse(fs.readFileSync("source/javascripts/app.json", "utf8")).scripts)
-    .pipe(plumber())
+    .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
     .pipe(concat("app.js"))
     .pipe(uglify({preserveComments:'some'}))
     .pipe(gulp.dest("./build"))
@@ -34,7 +35,7 @@ gulp.task("js", function() {
 
 gulp.task('sass', function(){
   gulp.src(['./source/stylesheets/app.scss'])
-  .pipe(plumber())
+  .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
   .pipe(sass())
   .pipe(pleeease({
         fallbacks: {
@@ -47,7 +48,7 @@ gulp.task('sass', function(){
 
 gulp.task('jade', function () {
   return gulp.src(['./source/**/*.jade', '!./source/partials/*.jade', '!./source/layouts/*.jade'])
-  .pipe(plumber())
+  .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
   .pipe(data( function(file) {
     return JSON.parse(fs.readFileSync('./source/data/data.json'));
   } ))
