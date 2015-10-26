@@ -4,8 +4,13 @@ gulp_starter
 ## Description
 gulpfile for web-design
 
+* jquery
+* font-awesome
+* foundation
+
 ## Requirement
 * node v4.1.0 ~
+
 
 ## SetUp
 ### homebrewでnodebrewのインストール
