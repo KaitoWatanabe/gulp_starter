@@ -1,5 +1,6 @@
-gulp_starter
-====
+# gulp_starter
+
+[![Build Status](https://travis-ci.org/KaitoWatanabe/gulp_starter.svg?branch=develop)](https://travis-ci.org/KaitoWatanabe/gulp_starter)
 
 ## Description
 gulpfile for web-design
