@@ -34,7 +34,7 @@ gulp.task("js", function() {
 });
 
 gulp.task('sass', function(){
-  gulp.src(['./source/stylesheets/app.scss'])
+  return gulp.src(['./source/stylesheets/app.scss'])
   .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
   .pipe(sass())
   .pipe(pleeease({
@@ -58,7 +58,7 @@ gulp.task('jade', function () {
 });
 
 gulp.task('image', function () {
-  gulp.src('./source/images/**/*')
+  return gulp.src('./source/images/**/*')
   .pipe(gulp.dest('./build/images/'));
 });
 
@@ -77,14 +77,6 @@ gulp.task('watch', function(){
 });
 
 gulp.task('build', function(callback) {
-  return runSequence(
-    'modules',
-    ['font', 'jade', 'sass', 'js', 'image'],
-    callback
-  );
-});
-
-gulp.task('clean', function(callback) {
   return runSequence(
     'modules',
     ['font', 'jade', 'sass', 'js', 'image'],
