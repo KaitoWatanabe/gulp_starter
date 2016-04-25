@@ -63,18 +63,6 @@ v4.1.0
 npm install -g gulp
 ```
 
-### bowerのインストール
-
-```
-npm install -g bower
-```
-
-### bowerがインストールされているか確認
-
-```
-bower -v
-```
-
 ## Install
 
 ```
