@@ -10,18 +10,20 @@ var concat = require('gulp-concat');
 var data = require('gulp-data');
 var fs = require('fs');
 var notify = require('gulp-notify');
+var changed  = require('gulp-changed');
 
 gulp.task("server", function() {
     browser({
         server: {
-            baseDir: "./build/"
+            baseDir: "build/"
         }
     });
 });
 
 gulp.task('modules',function(callback){
-  return gulp.src('./node_modules/font-awesome/fonts/*')
-  .pipe(gulp.dest('./build/fonts/'));
+  return gulp.src('node_modules/font-awesome/fonts/*')
+  .pipe(changed('build/fonts/'))
+  .pipe(gulp.dest('build/fonts/'));
 });
 
 gulp.task("js", function() {
@@ -29,12 +31,12 @@ gulp.task("js", function() {
     .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
     .pipe(concat("app.js"))
     .pipe(uglify({preserveComments:'some'}))
-    .pipe(gulp.dest("./build"))
-    .pipe(browser.reload({stream:true}))
+    .pipe(gulp.dest("build"))
+    .pipe(browser.reload({stream:true}));
 });
 
 gulp.task('sass', function(){
-  return gulp.src(['./source/stylesheets/app.scss'])
+  return gulp.src(['source/stylesheets/app.scss'])
   .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
   .pipe(sass())
   .pipe(pleeease({
@@ -42,29 +44,31 @@ gulp.task('sass', function(){
             autoprefixer: ['last 4 versions']
         }
     }))
-  .pipe(gulp.dest('./build'))
-  .pipe(browser.reload({stream:true}))
-})
+  .pipe(gulp.dest('build'))
+  .pipe(browser.reload({stream:true}));
+});
 
 gulp.task('jade', function () {
-  return gulp.src(['./source/**/*.jade', '!./source/partials/*.jade', '!./source/layouts/*.jade'])
+  return gulp.src(['source/**/*.jade', '!source/partials/*.jade', '!source/layouts/*.jade'])
   .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
   .pipe(data( function(file) {
-    return JSON.parse(fs.readFileSync('./source/data/data.json'));
+    return JSON.parse(fs.readFileSync('source/data/data.json'));
   } ))
   .pipe(jade())
-  .pipe(gulp.dest('./build/'))
-  .pipe(browser.reload({stream:true}))
+  .pipe(gulp.dest('build/'))
+  .pipe(browser.reload({stream:true}));
 });
 
 gulp.task('image', function () {
-  return gulp.src('./source/images/**/*')
-  .pipe(gulp.dest('./build/images/'));
+  return gulp.src('source/images/**/*')
+  .pipe(changed('build/images/'))
+  .pipe(gulp.dest('build/images/'));
 });
 
 gulp.task('font', function () {
-  return gulp.src('./source/fonts/**/*')
-  .pipe(gulp.dest('./build/fonts/'));
+  return gulp.src('source/fonts/**/*')
+  .pipe(changed('build/fonts/'))
+  .pipe(gulp.dest('build/fonts/'));
 });
 
 gulp.task('watch', function(){
