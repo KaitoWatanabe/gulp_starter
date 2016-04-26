@@ -54,13 +54,13 @@ if (ua.isTablet) {
 }
 
 // biggerlink
-$('.project-box').biggerlink();
+// $('.project-box').biggerlink();
 
 // scroll blocks
-$('a').smoothScroll({
-    easing: 'swing',
-    speed: 1000
-});
+// $('a').smoothScroll({
+//     easing: 'swing',
+//     speed: 1000
+// });
 
 // scroll top
 var topBtn = $('.pagetop');
@@ -106,3 +106,6 @@ $(".rollover").mouseover(function() {
 }).each(function() {
     $("<img>").attr("src", $(this).attr("src").replace(/^(.+)(\.[a-z]+)$/, "$1_on$2"));
 });
+
+$(document).foundation();
+

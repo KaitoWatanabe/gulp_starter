@@ -1,6 +1,7 @@
 mixin meta(title, slug)
   meta(charset="utf-8")
   title= title
+  meta(name="viewport" content="width=device-width,initial-scale=1")
   meta(content="" name="description")
 
   meta(property="og:locale" content="ja_JP")
@@ -21,7 +22,7 @@ mixin meta(title, slug)
 
   link(rel="stylesheet", href="/app.css")
   link(rel="shortcut icon" href="/favicon.ico")
-  
+
   link(href="/images/apple-touch-icon.png" rel="apple-touch-icon")
   link(href="/images/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76")
   link(href="/images/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120")

@@ -16,10 +16,11 @@ html(lang="ja" prefix=("og: http://ogp.me/ns# fb: http://www.facebook.com/2008/f
         js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.0&appId=160952450707602";
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
+    .off-canvas-wrap(data-offcanvas)
+      .inner-wrap
+        include ../partials/_nav
 
-    include ../partials/_nav
+        section#content
+          block contents
 
-    section#content
-      block contents
-
-    include ../partials/_footer
+        include ../partials/_footer
